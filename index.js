@@ -60,6 +60,14 @@ async function run() {
       res.json(events);
     })
 
+    // delete event 
+      app.delete('/myevents/:id',async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: ObjectId(id)}
+        const result = await bookingCollection.deleteOne(query);
+        res.json(result);
+      })
+
     } finally {
     //   await client.close();
     }
