@@ -16,12 +16,44 @@ const client = new MongoClient(uri);
 async function run() {
     try {
       await client.connect();
-      const database = client.db("naims-Hcamp");
-      const serviceCollection = database.collection("h-services");
-      const eventCollection = database.collection("my-events")
-     
-    console.log('database connected');
+      const database = client.db("naims_world");
+      const bannerCollection = database.collection("banner");
+      const rideCollection = database.collection("all_rides");
+      const bookinCollection = database.collection("all_booking");
+      
+      console.log('database connected');
+    // get banner images 
+    app.get("/banners",async(req,res)=>{
+      const cursor = bannerCollection.find({});
+      const banners = await cursor.toArray();
+      res.json(banners)
+    })
   
+    // get rides 
+    app.get("/rides",async(req,res)=>{
+      const cursor = rideCollection.find({});
+      const rides = await cursor.toArray();
+      res.json(rides)
+    })
+
+    // get single ride 
+    app.get("/rides/:id",async(req,res)=>{
+         const id = req.params.id;
+         const filter = {_id: ObjectId(id)}
+         const singleRide = await rideCollection.findOne(filter);
+         console.log(singleRide);
+         res.json(singleRide);
+    })
+
+    // send data to database 
+    app.post("/booking",async(req,res)=>{
+      const query = req.body;
+      console.log(query);
+      const result = await bookinCollection.insertOne(query);
+      res.json(result)
+    })
+
+
     } finally {
     //   await client.close();
     }
