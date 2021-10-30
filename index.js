@@ -19,7 +19,7 @@ async function run() {
       const database = client.db("naims_world");
       const bannerCollection = database.collection("banner");
       const rideCollection = database.collection("all_rides");
-      const bookinCollection = database.collection("all_booking");
+      const bookingCollection = database.collection("all_booking");
       
       console.log('database connected');
     // get banner images 
@@ -33,7 +33,7 @@ async function run() {
     app.get("/rides",async(req,res)=>{
       const cursor = rideCollection.find({});
       const rides = await cursor.toArray();
-      res.json(rides)
+      res.json(rides);
     })
 
     // get single ride 
@@ -48,11 +48,17 @@ async function run() {
     // send data to database 
     app.post("/booking",async(req,res)=>{
       const query = req.body;
-      console.log(query);
-      const result = await bookinCollection.insertOne(query);
+      const result = await bookingCollection.insertOne(query);
       res.json(result)
     })
 
+    // get myevent or order 
+    app.get("/myevents",async(req,res)=>{
+      const cursor = bookingCollection.find({});
+      const events = await cursor.toArray();
+      console.log(events);
+      res.json(events);
+    })
 
     } finally {
     //   await client.close();
