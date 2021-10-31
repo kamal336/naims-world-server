@@ -45,6 +45,13 @@ async function run() {
          res.json(singleRide);
     })
 
+    // add a new event 
+    app.post("/addride",async(req,res)=>{
+       const query = req.body;
+       const result = await rideCollection.insertOne(query);
+       res.json(result);
+    })
+
     // send data to database 
     app.post("/booking",async(req,res)=>{
       const query = req.body;
