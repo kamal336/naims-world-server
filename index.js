@@ -20,6 +20,7 @@ async function run() {
       const bannerCollection = database.collection("banner");
       const rideCollection = database.collection("all_rides");
       const bookingCollection = database.collection("all_booking");
+      const upcomingRidesCollection = database.collection("upcoming");
       
       console.log('database connected');
     // get banner images 
@@ -67,6 +68,13 @@ async function run() {
       res.json(events);
     })
 
+    // get upcoming rides 
+    app.get("/upcomingrides",async(req,res)=>{
+      const cursor = upcomingRidesCollection.find({});
+      const upcomingRides = await cursor.toArray();
+      res.json(upcomingRides)
+    })
+    
     // delete event 
       app.delete('/myevents/:id',async(req,res)=>{
         const id = req.params.id;
