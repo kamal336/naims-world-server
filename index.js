@@ -98,7 +98,7 @@ async function run() {
   run().catch(console.dir);
 
   app.get('/',(req,res)=>{
-      console.log('Server is running');
+      console.log('Server is running now');
       res.send('Server ready for run')
   })
 
